@@ -5,7 +5,7 @@ public with sharing class MixBuilderController
     public Map<Id,Song__c> selectedSongs = new Map<Id,Song__c>(); // не вижу смысла в этом поле, используешь его только в контролере, на странице его нет, пересмотри пожалуйста все
     																// филды на наличие подобных ситуаций
     private List<Song__c> genreList; //что-то с неймингом Song != Mix
-    private List<Track__c> tracksInMix = new List<Track__c>();
+    private List<Track__c> tracksInMix = new List<Track__c>(); //test comment
     private List<Track__c> tracksToInsert = new List<Track__c>();
     private List<Track__c> tracksToDelete = new List<Track__c>();
     public String currentGenre {get; set;}
