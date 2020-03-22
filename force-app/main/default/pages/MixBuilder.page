@@ -1,0 +1,58 @@
+<apex:page standardController="Mix__c" extensions="MixBuilderController">
+    <apex:form id="inputForm">
+        <apex:pageBlock id="mainBlock" title="Mix Builder">
+            <apex:pageBlockSection title="Mix Details" id="details">
+                <apex:inputField value="{! mix.Name }" required="true"/>
+                <apex:inputField value="{! mix.Customer__c }" required="true"/>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Mix Summary" id="summary">
+                <apex:outputText label="Track Count" value="{! trackCount }"/>
+                <apex:outputText label="Remaining Tracks" value="{! remainingTracks }"/>
+                <apex:outputText label="Mix Lenght (m)" value="{! mixLenght }"/>
+                <apex:outputText label="Remaining Mix Lenght (m)" value="{! remainingLenght }"/> 
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection title="Songs" id="songs" columns="1" rendered="{!wrapperRecordList.size!=0}">
+                <apex:actionRegion >
+                    <apex:outputLabel value="Song Genre Filter " for="filter"/>
+                    <apex:selectList size="1" multiselect="false" value="{!currentGenre}" id="filter">
+                        <apex:selectOptions value="{! genres }"/>
+                        <apex:actionSupport event="onchange" action="{! resetSetCon }" reRender="blockTable, pagination"/>
+                    </apex:selectList>
+                    <apex:actionStatus id="status" startText="Updating Summary Stats..."/>
+                    
+                    <apex:outputPanel id="blockTable">
+                        <apex:pageBlockTable value="{! wrapperRecordList }" var="s" rows="5" width="100%">
+                                <apex:column style="width:5%" headerValue="Select">
+                                    <apex:inputCheckbox value="{!s.isSelected}">
+                                        <apex:actionSupport event="onchange" action="{! countSummary }" reRender="summary" status="status">
+                                            <apex:param id="currentSong" name="songParam" value="{! s.song.Id }" assignTo="{! songId }"/>
+                                        </apex:actionSupport>
+                                    </apex:inputCheckbox>
+                                </apex:column> 
+                                <apex:column style="width:45%" value="{!s.song.Name}" />
+                                <apex:column style="width:45%" value="{!s.song.Genre__c}" />
+                                <apex:column style="width:10%" value="{!s.song.Length_m__c}" />
+                        </apex:pageBlockTable>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel style="text-align:center;" layout="block" id="pagination">
+                        <apex:commandButton value="First" reRender="blockTable, pagination" action="{!setCon.first}" disabled="{!NOT(hasPrevious)}"/>
+                        <apex:commandButton value="Previous" rerender="blockTable, pagination" action="{!setCon.previous}" disabled="{!NOT(hasPrevious)}"/>
+                        &nbsp;
+                        Page {!pageNumber} of {!totalPages}
+                        &nbsp;
+                        <apex:commandButton value="Next" rerender="blockTable, pagination" action="{!setCon.next}" disabled="{!NOT(hasNext)}"/>
+                        <apex:commandButton value="Last" rerender="blockTable, pagination" action="{!setCon.last}" disabled="{!NOT(hasNext)}"/>
+                    </apex:outputPanel>
+                </apex:actionRegion>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!doCancel}" immediate="true"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>        
+</apex:page>

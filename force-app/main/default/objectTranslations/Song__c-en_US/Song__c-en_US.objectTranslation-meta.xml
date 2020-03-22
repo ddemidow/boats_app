@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Song</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Songs</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Track count can&apos;t  exceeds the number of available track licenses. --></errorMessage>
+        <name>Track_count_limit</name>
+    </validationRules>
+</CustomObjectTranslation>
