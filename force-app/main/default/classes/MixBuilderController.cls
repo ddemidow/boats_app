@@ -19,6 +19,7 @@ public with sharing class MixBuilderController
     private Decimal remainingLenght = 90;
     public Id songId {get; set;}
 
+    ///asdasdasd
 
     ApexPages.standardController m_sc = null; // нейминг хромает!
 
